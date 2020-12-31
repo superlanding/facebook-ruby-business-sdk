@@ -64,8 +64,8 @@ module FacebookAds
       # @param [String] upload_source
       # @param [HttpServiceInterface] http_service_client
       def initialize(pixel_id: nil, events: nil, test_event_code: nil, partner_agent: nil,
-          namespace_id: nil, upload_id: nil, upload_tag: nil, upload_source: nil,
-          http_service_client: nil)
+                     namespace_id: nil, upload_id: nil, upload_tag: nil, upload_source: nil,
+                     http_service_client: nil)
         unless pixel_id.nil?
           self.pixel_id = pixel_id
         end
@@ -157,9 +157,26 @@ module FacebookAds
         response = ads_pixel.events.create(params)
         json_response_object = JSON.parse(JSON.generate(response), object_class: OpenStruct)
         FacebookAds::ServerSide::EventResponse.new(
-            events_received: json_response_object.events_received,
-            messages: json_response_object.messages,
-            fbtrace_id: json_response_object.fbtrace_id
+          events_received: json_response_object.events_received,
+          messages: json_response_object.messages,
+          fbtrace_id: json_response_object.fbtrace_id
+        )
+      end
+
+      def execute_by_session(session)
+        unless valid?
+          raise list_invalid_properties
+        end
+
+        params = get_params()
+        params[:data] = normalize
+        ads_pixel = FacebookAds::AdsPixel.get(pixel_id, session)
+        response = ads_pixel.events.create(params)
+        json_response_object = JSON.parse(JSON.generate(response), object_class: OpenStruct)
+        FacebookAds::ServerSide::EventResponse.new(
+          events_received: json_response_object.events_received,
+          messages: json_response_object.messages,
+          fbtrace_id: json_response_object.fbtrace_id
         )
       end
 
@@ -231,15 +248,15 @@ module FacebookAds
       def ==(o)
         return true if self.equal?(o)
         self.class == o.class &&
-            pixel_id == o.pixel_id &&
-            events == o.events &&
-            test_event_code == o.test_event_code &&
-            partner_agent == o.partner_agent &&
-            namespace_id == o.namespace_id &&
-            upload_id == o.upload_id &&
-            upload_tag == o.upload_tag &&
-            upload_source == o.upload_source &&
-            http_service_client == o.http_service_client
+          pixel_id == o.pixel_id &&
+          events == o.events &&
+          test_event_code == o.test_event_code &&
+          partner_agent == o.partner_agent &&
+          namespace_id == o.namespace_id &&
+          upload_id == o.upload_id &&
+          upload_tag == o.upload_tag &&
+          upload_source == o.upload_source &&
+          http_service_client == o.http_service_client
       end
 
       # @see the `==` method
