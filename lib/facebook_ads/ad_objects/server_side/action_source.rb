@@ -16,20 +16,33 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'facebook_ads'
+module FacebookAds
+	module ServerSide
+		ActionSource = Set[
 
-access_token = '<ACCESS_TOKEN>'
-app_secret = '<APP_SECRET>'
-app_id = '<APP_ID>'
-id = '<PIXEL_ID>'
+			# Conversion happened over email.
+			'email',
 
-FacebookAds.configure do |config|
-  config.access_token = access_token
-  config.app_secret = app_secret
+			# Conversion was made on your website.
+			'website',
+
+			# Conversion was made using your app.
+			'app',
+
+			# Conversion was made over the phone.
+			'phone_call',
+
+			# Conversion was made via a messaging app, SMS, or online messaging feature.
+			'chat',
+
+			# Conversion was made in person at your physical store.
+			'physical_store',
+
+			# Conversion happened automatically, for example, a subscription renewal that's set on auto-pay each month.
+			'system_generated',
+
+			# Conversion happened in a way that is not listed.
+			'other'
+		]
+	end
 end
-
-ads_pixel = FacebookAds::AdsPixel.get(id)
-shared_accountss = ads_pixel.shared_accounts({
-    fields: {  },
-    business: '<businessID>',
-})

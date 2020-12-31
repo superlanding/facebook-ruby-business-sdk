@@ -316,6 +316,7 @@ module FacebookAds
     field :id, 'string'
     field :image_cdn_urls, 'hash'
     field :image_url, 'string'
+    field :images, { list: 'string' }
     field :inventory, 'int'
     field :manufacturer_part_number, 'string'
     field :material, 'string'
@@ -343,6 +344,7 @@ module FacebookAds
     field :url, 'string'
     field :visibility, { enum: -> { VISIBILITY }}
     field :additional_image_files, { list: 'file' }
+    field :additional_uploaded_image_ids, { list: 'string' }
     field :android_app_name, 'string'
     field :android_class, 'string'
     field :android_package, 'string'

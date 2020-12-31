@@ -93,12 +93,18 @@ module FacebookAds
       "LOCAL_AWARENESS",
       "MESSAGES",
       "OFFER_CLAIMS",
+      "OUTCOME_LEADS",
       "PAGE_LIKES",
       "POST_ENGAGEMENT",
       "PRODUCT_CATALOG_SALES",
       "REACH",
       "STORE_VISITS",
       "VIDEO_VIEWS",
+    ]
+
+    SMART_PROMOTION_TYPE = [
+      "GUIDED_CREATION",
+      "SMART_APP_PROMOTION",
     ]
 
     SPECIAL_AD_CATEGORIES = [
@@ -384,6 +390,7 @@ module FacebookAds
 
 
     field :account_id, 'string'
+    field :ad_strategy_id, 'string'
     field :adlabels, { list: 'AdLabel' }
     field :bid_strategy, { enum: -> { BID_STRATEGY }}
     field :boosted_object_id, 'string'
@@ -420,6 +427,7 @@ module FacebookAds
     field :adbatch, { list: 'object' }
     field :execution_options, { list: { enum: -> { EXECUTION_OPTIONS }} }
     field :iterative_split_test_configs, { list: 'object' }
+    field :smart_promotion_type, { enum: -> { SMART_PROMOTION_TYPE }}
     field :upstream_events, 'hash'
 
     has_edge :ad_studies do |edge|
